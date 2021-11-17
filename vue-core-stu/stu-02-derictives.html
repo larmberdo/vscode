@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue指令学习</title>
+</head>
+<style>
+    .btn {
+        padding: 6px 12px;
+        text-decoration: none;
+        color: whitesmoke;
+        background-color: green;
+        border: 1PX solid green;
+        border-radius: 4px;
+    }
+    .btn:hover {
+        color: green;
+        background-color: whitesmoke;
+    }
+    .messageBox {
+        padding: 6px 12px;
+        border: 1px solid lightcoral;
+    }
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<body>
+    <div id="app">
+        <!-- v-text -->
+        <p v-text = "content"></p>
+        <!-- v-html -->
+        <p v-html="htmlContent"></p>
+        <hr><br>
+        <!-- v-show -->
+        <a href="#" class="btn" @click.prevent = "showMessageBox">显示</a>
+        <span class="messageBox" v-show="flag">隐藏和显示</span>
+        <hr><br>
+        <!-- v-if & v-else  -->
+        <!-- 他与v-show的区别在于值决定这个元素是否要被渲染，而v-show则是改变这个元素的display属性来达到显示和隐藏的目的 -->
+        <a href="#" class="btn" @click.prevent = 'isRender'>是否渲染</a>
+        <span class="messageBox" v-if = 'toRender'>是否渲染</span>
+        <span class="messageBox" v-else>渲染了另个一个</span>
+        <hr><br>
+        <!-- v-model -->
+        <!-- 双向绑定实际上是:value & @input的语法糖，视图层的数据改变后，模型层数据会跟着改变，反过来也是 -->
+        <input type="text" name="test" id="test" v-model = "testMsg">
+        <span class="messageBox" v-text = 'testMsg'></span>
+        <hr><br>
+        <!-- v-once -->
+        <!-- 只绑定一次性值，后面该值更改后不会随着一起更改 -->
+        <input v-model="testMsgOnce" type="text" />
+        <span class="messageBox" v-text = "testMsgOnce" v-once></span>
+        <hr><br>
+        <!-- v-pre -->
+        <!-- 跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译 -->
+        <span class="messageBox" v-pre>{{testMsg}}</span>
+        <!-- v-cloak -->
+        <!-- 这个指令保持在元素上直到关联实例结束编译。和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。 -->
+        <span class="messageBox">{{testMsg}}</span>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        data() {
+            return {
+                content: "只能显示text内容 不能解析html 如：<div>不能解析div</div>",
+                htmlContent: `他还可以解析html，会自动过滤script，防止xss攻击，如：<span style = "color: red">会解析成红色字体</span>`,
+                flag: true,
+                toRender: true,
+                testMsg: '看得见吗',
+                testMsgOnce: '绑定一次'
+            }
+        },
+        methods: {
+            showMessageBox() {
+                // event.preventDefault()
+                this.flag = !this.flag
+            },
+            isRender() {
+                this.toRender = !this.toRender
+            }
+        },
+    })
+</script>
+</html>
