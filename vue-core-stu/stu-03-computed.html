@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性和函数的区别</title>
+    <link rel="stylesheet" href="./core.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 计算属性会缓存，当所依赖的值没有发生改变的时候，不会调用。而函数会调用 -->
+        <!-- 奇怪的问题：若计算属性c依赖a和b，当a和b交换值后，c没有变，却会触发计算属性更新 -->
+        <span>数学：</span>
+        <input v-model="math" type="text" class="messageBox" /><br><br>
+        <span>英语：</span>
+        <input v-model="english" type="text" class="messageBox" /><br><br>
+        <span>总分：</span>
+        <input v-model="score" type="text" class="messageBox" /><br>
+        <button class="btn" @click = 'changeNum'>交换</button><br><br>
+        <!-- 监听器通过watch监听具体某一个属性，当发生改变的时候触发，比较灵活 -->
+        <!-- 类的绑定有数组和对象形式，对象形式为：类名:布尔值变量，数组形式：[a变量,b变量]，ab变量在data里赋予对应的类名 -->
+        <!-- 类的绑定一般采用对象形式，绑定一个对象，该对象在data中声明，然后通过计算属性控制具体显示的类 -->
+        <!-- style绑定一般都用对象，形式为： :style = "{color:activeColor,fontSize: fontSize + 'px'}" 后面的为data中的值-->
+        <span>监听器:</span>
+        <input v-model="testData" type="text" :class = '{active: isActive}' />
+
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                   math: 70,
+                   english: 60,
+                   testData: 'hello',
+                   isActive: false
+                }
+            },
+            methods: {
+                changeNum() {
+                    [this.math,this.english] = [this.english,this.math]
+                }
+            },
+            computed: {
+                score: {
+                    get() {
+                        console.log('get被调用');
+                        return (+this.math) + (+this.english)
+                    },
+                    set(val) {
+                        console.log('set被调用');
+                        let average = val/2;
+                        this.math = average;
+                        this.english = average;
+
+                    }
+                }
+            },
+            watch: {
+                testData(newVal,oldVal) {
+                    this.isActive = true;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
