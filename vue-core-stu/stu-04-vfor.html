@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表渲染</title>
+    <link rel="stylesheet" href="./core.css">
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <!-- key值是必须的，用于标记该节点，使其唯一性。虚拟DOM比对的时候会根据key值判断元素是否做了更改，不能用index作为key值，因为index不能映射唯一的元素 -->
+            <!-- 数组循环 循环出的值依次为value index -->
+            <li v-for = '(list,index) in lists' :key = 'list.id'>
+                <span class='info' v-html='list.id'></span>
+                <span class='info' v-html='list.name'></span>
+                <span class='info' v-html='list.price'></span>
+                <span class='info' v-html='index'></span>
+            </li>
+        </ul>
+        <br><hr><br>
+        <ul>
+            <!-- 对象循环 循环出的值依次为value key index -->
+            <li v-for = '(val,key ,ind) in areas' :key = 'val.id'>
+                <span class="info" v-html = 'key'></span>
+                <span class="info" v-html = 'ind'></span>
+                <span class="info" v-html = 'val.id'></span>
+                <span class="info" v-html = 'val.city'></span>
+                <span class="info" v-html = 'val.cup'></span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            lists:[ 
+                {
+                    'id': 0,
+                    'name': '苹果',
+                    'price': '10元'
+                },
+                {
+                    'id': 1,
+                    'name': '香蕉',
+                    'price': '5元'
+                },
+                {
+                    'id': 2,
+                    'name': '橙子',
+                    'price': '15元'
+                }
+            ],
+            areas: {
+                'bj': {
+                    'city': '北京',
+                'id': '001',
+                'cup': '首都'
+                },
+                'sh': {
+                    'id': '002',
+                    'city': '上海',
+                    'cup': 'magic'
+                }
+            }
+        }
+    })
+</script>
+</html>

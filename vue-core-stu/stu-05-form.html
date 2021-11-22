@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单数据绑定</title>
+    <link rel="stylesheet" href="./core.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 纯文本输入框 绑定的是value值 -->
+        <div>
+            <label>姓名：</label><input class="beainput" v-model="name" type="text" />
+        </div>
+        <!-- 单选按钮，绑定的值与value属性对比，相同即勾选 -->
+        <div>
+            <span>性别：</span>
+            <label for="sexc">女：</label><input type="radio" name="sex" id="sexc" value="0"  v-model = 'sex'>
+            <label for="sexcf">男：</label><input type="radio" name="sex" id="sexcf" value="1"  v-model = 'sex'>
+        </div>
+        <!-- 多选按钮 绑定的是value属性 绑定值为数组 -->
+        <div>
+            <span>爱好：</span>
+            <label for="climb">登山</label>
+            <input type="checkbox" name="hobby" id="climb" value="climb" v-model = 'hobbies'>
+            <label for="swim">游泳</label>
+            <input type="checkbox" name="hobby" id="swim" value="swim" v-model = 'hobbies'>
+            <label for="games">游戏</label>
+            <input type="checkbox" name="hobby" id="games" value="games" v-model = 'hobbies'>
+        </div>
+        <!-- 下拉按钮 在select上设置默认值v-model绑定value， 在option上绑定value -->
+        <div>
+            <select name="cities" id="cities" v-model = 'city'>
+                <option v-for = 'list in lists' :key = 'list.code' :value = 'list.code' v-text = 'list.name'></option>
+            </select>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                name: 'mao',
+                sex: '1',
+                hobbies:['climb' ],
+                lists:[
+                    {
+                        'code': 'bj',
+                        'name': '北京',
+                    },
+                    {
+                        'code': 'cd',
+                        'name': '成都',
+                    },
+                    {
+                        'code': 'sh',
+                        'name': '上海',
+                    }
+                ],
+                city: 'cd'
+            }
+        },
+    })
+</script>
+</html>
