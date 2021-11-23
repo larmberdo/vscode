@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue动画效果</title>
+    <link rel="stylesheet" href="./core.css">
+</head>
+<body>
+    <div id="app">
+        <a href="#" class="btn" @click.prevent = 'showIt'>切换</a>
+        <!-- 过渡动画，name属性指定6个类名前缀，xx-enter,xx-enter-to,xx-enter-active;xx-leave,xx-leave-to,xx-leave-active -->
+        <transition name = 'mao'>
+            <div class="test-box" v-show = 'show'></div>
+        </transition>
+        <!-- 动画 -->
+        <a href="#" @click.prevent = 'showAnimation = !showAnimation' class="btn">动画</a>
+        <transition name = 'fade'>
+            <div class="fade-box" v-show = 'showAnimation'></div>
+        </transition>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                show: true,
+                showAnimation: true
+            }
+        },
+        methods: {
+            showIt() {
+                this.show = !this.show
+                console.log(this.show);
+            }
+        },
+    })
+</script>
+</html>
