@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令</title>
+    <link rel="stylesheet" href="./core.css">
+</head>
+<body>
+    <div id="app">
+        <input v-focus = 'true' type="text" name="" id="">
+        <div v-upper = 'true' v-reload>
+            <span >i am mao</span>
+            <span>hello mao</span>
+        </div>
+    </div>
+</body>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                
+            }
+        },
+        directives: {
+            'focus': {
+                inserted(el,binding) {
+                    if(binding) {
+                        el.focus()
+                    }
+                }
+            },
+            'upper': {
+                bind(el) {
+                    el.style.color = 'red';
+                },
+                inserted(el,binding) {
+                    if(binding) {
+                        el.innerText = el.innerText.toUpperCase()
+                    }
+                }
+            },
+            'reload': {
+                bind(el) {
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 3000);
+                }
+            }
+        }
+    })
+</script>
+</html>
